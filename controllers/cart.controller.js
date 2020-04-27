@@ -1,3 +1,3 @@
 module.exports.index = function(req, res) {
-  res.send('this is cart page');
+  res.render('cart/index');
 }
