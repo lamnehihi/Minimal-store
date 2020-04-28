@@ -1,3 +1,16 @@
 extends ../layouts/common
 block content
   h1 Products
+
+  .container
+    .row
+      each value in products
+        .card(style='width: 18rem;').m-2
+          img.m-0.card-img-top(src=value.image, alt='Card image cap', style='width: 100%;')
+          .card-body
+            h4.card-title= value.name
+            h5= value.price + ' $'
+            p(style='font-size: 15px;')= value.color
+            p(style='height: 14rem;').card-text= value.detail
+              | Some quick example text to build on the card title and make up the bulk of the card&apos;s content.
+            a.btn.btn-primary(href='/cart/add/' + value.id) Go somewhere
