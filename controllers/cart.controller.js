@@ -1,3 +1,6 @@
+var express = require('express');
+var app = express();
+
 var Sessions = require('../models/sessions.model');
 
 module.exports.index = function(req, res) {
@@ -7,5 +10,6 @@ module.exports.index = function(req, res) {
 
 module.exports.addToCart = function(req, res, next) {
   console.log(req.params);
-  console.log(req.signedCookies);
+  console.log(res.locals.session);
+
 }

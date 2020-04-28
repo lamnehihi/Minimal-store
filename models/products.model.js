@@ -10,6 +10,6 @@ var userSchema = new mongoose.Schema({
   categories : String
 });
 
-var Products = mongoose.model('Products', userSchema, 'products');
+var Products = mongoose.model('Products', userSchema, 'products',{ useUnifiedTopology: true });
 
 module.exports = Products;

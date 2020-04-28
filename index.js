@@ -15,7 +15,7 @@ app.set('view engine', 'pug');
 
 app.use(cookieParser(process.env.SESSION_SECRECT));
 
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true });
 
 app.use('/products', productsRoute);
 app.use('/cart', cartRoute);
