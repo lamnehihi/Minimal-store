@@ -11,5 +11,4 @@ module.exports.index = function(req, res) {
 module.exports.addToCart = function(req, res, next) {
   console.log(req.params);
   console.log(res.locals.session);
-
 }
