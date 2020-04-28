@@ -4,4 +4,6 @@ var controller = require('../controllers/cart.controller');
 
 router.get('/', controller.index);
 
-module.exports = router
+router.get('/add/:productId', controller.addToCart);
+
+module.exports = router;

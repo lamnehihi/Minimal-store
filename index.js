@@ -1,13 +1,13 @@
 require('dotenv').config();
 
 var express = require('express');
-var app = express();
 var mongoose = require('mongoose');
 var cookieParser = require('cookie-parser')
 
-var productRoute = require('./routes/product.route');
+var productsRoute = require('./routes/products.route');
 var cartRoute = require('./routes/cart.route');
 
+var app = express();
 var port = 3000;
 
 app.set('views', './view');
@@ -17,9 +17,8 @@ app.use(cookieParser(process.env.SESSION_SECRECT));
 
 mongoose.connect(process.env.MONGO_URL);
 
-app.use('/product', productRoute);
+app.use('/products', productsRoute);
 app.use('/cart', cartRoute);
 
 app.get('/', (req, res) => res.render('index'));
-
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))

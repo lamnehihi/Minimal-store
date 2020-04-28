@@ -10,6 +10,6 @@ var userSchema = new mongoose.Schema({
   categories : String
 });
 
-var Product = mongoose.model('Product', userSchema, 'products');
+var Products = mongoose.model('Products', userSchema, 'products');
 
-module.exports = Product;
+module.exports = Products;
