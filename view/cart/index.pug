@@ -1,3 +1,31 @@
 extends ../layouts/common
 block content
-  h1 Cart
+  h1.text-center Cart
+  h2.text-center #{cartLength} item in cart
+  
+
+  .container
+    .row
+      table.table
+        thead
+          tr
+            th(scope='col') PRODUCT
+            th(scope='col')
+            th(scope='col') PRICE
+            th(scope='col') QUANTITY
+            th(scope='col') TOTAL
+            th(scope='col')
+        tbody
+          each product in cart
+              tr
+                td=product.name
+                td 
+                  img.img-thumbnail(src=product.image, alt='Card image cap', height='200px', width='150px')
+                td=product.price
+                td=countProducts[x++]
+                td=product.price * 2
+                td
+                  .d-flex.flex-column
+                    button.btn.btn-primary.mb-2(type='button') Edit
+                    button.btn.btn-danger(type='button') Delete
+

@@ -1,11 +1,12 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-var controller = require('../controllers/products.controller');
+var controller = require("../controllers/products.controller");
 
-var sessionMiddleware = require('../middlewares/session.middleware');
-var cookieMiddleware = require('../middlewares/cookies.middleware');
+var sessionMiddleware = require("../middlewares/session.middleware");
+var cookieMiddleware = require("../middlewares/cookies.middleware");
 
-router.get('/',
+router.get(
+  "/",
   cookieMiddleware.requireCookieId,
   sessionMiddleware.requireSession,
   controller.index

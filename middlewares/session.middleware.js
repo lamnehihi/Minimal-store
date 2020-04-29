@@ -1,27 +1,25 @@
-var Sessions = require('../models/sessions.model');
+var Sessions = require("../models/sessions.model");
 
-module.exports.requireSession = async function(req, res, next) {
+module.exports.requireSession = async function (req, res, next) {
   var cookieIdd = req.signedCookies.cookieId;
 
   //check session
-  var session = await Sessions.findOne({cookieId: cookieIdd});
-  if(!session.cookieId){
+  var session = await Sessions.findOne({ cookieId: cookieIdd });
+  if (!session.cookieId) {
     session = {
       cookieId: cookieIdd,
-      cart : {
-        length : 0,
+      cart: {
+        length: 0,
       },
     };
-    Sessions.create(
-    session,
-    function (err, small) {
+    Sessions.create(session, function (err, small) {
       if (err) return handleError(err);
       // saved!
     });
-    res.redirect('/products');
+    res.redirect("/products");
     return;
   }
 
   res.locals.session = session;
   next();
-}
+};
