@@ -7,8 +7,6 @@ var cookieMiddleware = require("../middlewares/cookies.middleware");
 
 router.get(
   "/",
-  cookieMiddleware.requireCookieId,
-  sessionMiddleware.requireSession,
   controller.index
 );
 

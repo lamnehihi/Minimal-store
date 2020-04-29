@@ -2,7 +2,10 @@ extends ../layouts/common
 block content
   h1.text-center Cart
   h2.text-center #{cartLength} item in cart
-  
+
+  if errors
+     each error in errors
+       .alert.alert-danger(role='alert')=error
 
   .container
     .row

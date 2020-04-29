@@ -5,21 +5,10 @@ var Sessions = require("../models/sessions.model");
 var Products = require("../models/products.model");
 
 module.exports.index = async function (req, res) {
-  var cart = res.locals.session.cart;
-  var countProducts = Object.values(cart);
-
-  var productsId = Object.keys(cart);
-  productsId.shift();
-
-  //remove length in countProducts
-  var cartLength = countProducts.shift();
-
-  var records = await Products.find().where("_id").in(productsId).exec();
-
   res.render("cart/index", {
-    cart: records,
-    countProducts: countProducts,
-    cartLength: cartLength,
+    cart: res.locals.cart,
+    countProducts: res.locals.countProducts,
+    cartLength: res.locals.cartLength,
     x: 0,
   });
 };
@@ -83,4 +72,28 @@ module.exports.removeFromCart = async function (req, res, next) {
   res.redirect("/cart");
 };
 
+module.exports.updateToCart = async function (req, res, next) {
+  var productId = req.params.productId;
+  var session = res.locals.session;
+  var cart = session.cart;
 
+  cart[productId] = parseInt(req.body.countProduct);
+  //count total products in cart
+  cart.length = 0;
+  for (var product in cart) {
+    cart.length += cart[product];
+  }
+  session.cart = cart;
+
+  //update cart to DB
+  var isDone = await Sessions.update(
+    { cookieId: req.signedCookies.cookieId },
+    session,
+    {
+      upsert: true,
+    },
+    function (err, rawResponse) {}
+  );
+
+  res.redirect("/cart");
+};

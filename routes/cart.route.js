@@ -4,6 +4,7 @@ var controller = require("../controllers/cart.controller");
 
 var sessionMiddleware = require("../middlewares/session.middleware");
 var cookieMiddleware = require("../middlewares/cookies.middleware");
+var cartValidate = require("../validate/cart.validate");
 
 router.get(
   "/",
@@ -14,22 +15,17 @@ router.get(
 
 router.get(
   "/add/:productId",
-  cookieMiddleware.requireCookieId,
-  sessionMiddleware.requireSession,
   controller.addToCart
 );
 
 router.get(
   "/delete/:productId",
-  cookieMiddleware.requireCookieId,
-  sessionMiddleware.requireSession,
   controller.removeFromCart
 )
 
 router.post(
   "/update/:productId",
-  cookieMiddleware.requireCookieId,
-  sessionMiddleware.requireSession,
+  cartValidate.postUpdateCart,
   controller.updateToCart
 )
 
