@@ -22,6 +22,12 @@ module.exports.requireSession = async function (req, res, next) {
   }
   
   var cart = session.cart;
+  //count total products in cart
+  cart.length = 0;
+  for (var product in cart) {
+    cart.length += cart[product];
+  }
+  session.cart = cart;
   var countProducts = Object.values(cart);
 
   var productsId = Object.keys(cart);

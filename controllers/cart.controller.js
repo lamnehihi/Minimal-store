@@ -25,13 +25,6 @@ module.exports.addToCart = async function (req, res, next) {
     cart[productId] = 1;
   }
 
-  //count total products in cart
-  cart.length = 0;
-  for (var product in cart) {
-    cart.length += cart[product];
-  }
-  session.cart = cart;
-
   //update cart to DB
   var isDone = await Sessions.update(
     { cookieId: req.signedCookies.cookieId },
@@ -51,13 +44,6 @@ module.exports.removeFromCart = async function (req, res, next) {
   var cart = session.cart;
 
   delete cart[productId];
-  
-  //count total products in cart
-  cart.length = 0;
-  for (var product in cart) {
-    cart.length += cart[product];
-  }
-  session.cart = cart;
 
   //update cart to DB
   var isDone = await Sessions.update(
@@ -78,12 +64,6 @@ module.exports.updateToCart = async function (req, res, next) {
   var cart = session.cart;
 
   cart[productId] = parseInt(req.body.countProduct);
-  //count total products in cart
-  cart.length = 0;
-  for (var product in cart) {
-    cart.length += cart[product];
-  }
-  session.cart = cart;
 
   //update cart to DB
   var isDone = await Sessions.update(
