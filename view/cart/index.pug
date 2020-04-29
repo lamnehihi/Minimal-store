@@ -22,10 +22,17 @@ block content
                 td 
                   img.img-thumbnail(src=product.image, alt='Card image cap', height='200px', width='150px')
                 td=product.price
-                td=countProducts[x++]
-                td=product.price * 2
                 td
-                  .d-flex.flex-column
-                    button.btn.btn-primary.mb-2(type='button') Edit
-                    button.btn.btn-danger(type='button') Delete
+                  form(action="/cart/update/" + product._id, method="post")
+                    .form-group
+                      input.form-control(type="number", name="countProduct", value=countProducts[x])
+                      button.btn.btn-outline-primary.mt-2(type='submit') Edit
+                td=product.price * countProducts[x]
+                td
+                  .d-flex.flex-column  
+                    a.btn.btn-outline-danger(href='/cart/delete/' + product._id, role='button') Delete
+                  p.d-none=++x
+                
+                
+              
 

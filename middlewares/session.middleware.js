@@ -5,7 +5,7 @@ module.exports.requireSession = async function (req, res, next) {
 
   //check session
   var session = await Sessions.findOne({ cookieId: cookieIdd });
-  if (!session.cookieId) {
+  if (!session) {
     session = {
       cookieId: cookieIdd,
       cart: {

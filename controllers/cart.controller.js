@@ -14,19 +14,17 @@ module.exports.index = async function (req, res) {
   //remove length in countProducts
   var cartLength = countProducts.shift();
 
-  var records = await Products.find().where('_id').in(productsId).exec();
+  var records = await Products.find().where("_id").in(productsId).exec();
 
   res.render("cart/index", {
-    cart : records,
-    countProducts : countProducts,
-    cartLength : cartLength,
-    x : 0
+    cart: records,
+    countProducts: countProducts,
+    cartLength: cartLength,
+    x: 0,
   });
 };
 
 module.exports.addToCart = async function (req, res, next) {
-  console.log(req.params);
-
   var productId = req.params.productId;
   var session = res.locals.session;
   var cart = session.cart;
@@ -45,6 +43,7 @@ module.exports.addToCart = async function (req, res, next) {
   }
   session.cart = cart;
 
+  //update cart to DB
   var isDone = await Sessions.update(
     { cookieId: req.signedCookies.cookieId },
     session,
@@ -56,3 +55,32 @@ module.exports.addToCart = async function (req, res, next) {
 
   res.redirect("/products");
 };
+
+module.exports.removeFromCart = async function (req, res, next) {
+  var productId = req.params.productId;
+  var session = res.locals.session;
+  var cart = session.cart;
+
+  delete cart[productId];
+  
+  //count total products in cart
+  cart.length = 0;
+  for (var product in cart) {
+    cart.length += cart[product];
+  }
+  session.cart = cart;
+
+  //update cart to DB
+  var isDone = await Sessions.update(
+    { cookieId: req.signedCookies.cookieId },
+    session,
+    {
+      upsert: true,
+    },
+    function (err, rawResponse) {}
+  );
+
+  res.redirect("/cart");
+};
+
+
