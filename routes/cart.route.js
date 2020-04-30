@@ -8,23 +8,25 @@ var cartValidate = require("../validate/cart.validate");
 
 router.get(
   "/",
-  cookieMiddleware.requireCookieId,
-  sessionMiddleware.requireSession,
+  sessionMiddleware.requireCart,
   controller.index
 );
 
 router.get(
   "/add/:productId",
+  sessionMiddleware.requireCart,
   controller.addToCart
 );
 
 router.get(
   "/delete/:productId",
+  sessionMiddleware.requireCart,
   controller.removeFromCart
 )
 
 router.post(
   "/update/:productId",
+  sessionMiddleware.requireCart,
   cartValidate.postUpdateCart,
   controller.updateToCart
 )

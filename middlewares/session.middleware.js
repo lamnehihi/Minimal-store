@@ -20,7 +20,14 @@ module.exports.requireSession = async function (req, res, next) {
     res.redirect("/products");
     return;
   }
-  
+
+  res.locals.session = session;
+
+  next();
+};
+
+module.exports.requireCart = async function (req, res, next) {
+  var session = res.locals.session;
   var cart = session.cart;
   //count total products in cart
   cart.length = 0;
@@ -38,9 +45,9 @@ module.exports.requireSession = async function (req, res, next) {
 
   var records = await Products.find().where("_id").in(productsId).exec();
 
-  res.locals.session = session;
   res.locals.cart = records;
   res.locals.countProducts = countProducts;
   res.locals.cartLength = cartLength;
+
   next();
-};
+}
