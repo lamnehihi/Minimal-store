@@ -44,8 +44,18 @@ module.exports.requireCart = async function (req, res, next) {
   var cartLength = countProducts.shift();
 
   var records = await Products.find().where("_id").in(productsId).exec();
+  var cartByRecords = [];
 
-  res.locals.cart = records;
+  //fix order error when records return
+  while(cartByRecords.length != records.length) {
+    for(var x = 0; x < productsId.length; x++) {
+      for(var j = 0; j < records.length; j++) {
+        if(productsId[x] == records[j].id) cartByRecords.push(records[j]);
+      }
+    }
+  }
+
+  res.locals.cart = cartByRecords;
   res.locals.countProducts = countProducts;
   res.locals.cartLength = cartLength;
 
