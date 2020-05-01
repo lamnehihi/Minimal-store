@@ -2,6 +2,9 @@ extends ../layouts/common
 block content
   h1 Products
 
+  form.form-inline(action="/products/search", method="get") 
+    input.form-control(type="text", name="q", placeholder="Type to search", value=q ? q : '')
+    button.btn.btn-primary(type="submit") Search
   .container
     .row
       each value in products

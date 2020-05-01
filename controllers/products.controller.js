@@ -16,3 +16,18 @@ module.exports.index = async function (req, res) {
     products: products,
   });
 };
+
+module.exports.search = async function (req, res) {
+  var products = await Products.find();
+
+  var q = req.query.q;
+  var matchProducts = products.filter(function(product) {
+    return product.name.toLowerCase().indexOf(q.toLowerCase()) !== -1;
+  });
+
+  res.render("products/index", {
+    products: matchProducts,
+    q
+  });
+
+};
